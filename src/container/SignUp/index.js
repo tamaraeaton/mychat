@@ -38,7 +38,14 @@ const onSignUpPress = () => {
       type: LOADING_START,
     });
     SignUpRequest(email, password)
-    .then(()=>{
+    .then((res)=>{
+      if(!res.addittionalUserInfo) {
+        dispatchLoaderAction({
+          type:LOADING_STOP,
+        });
+        alert(res);
+        return;
+      }
       console.log('firebase currentUser.uid ' + firebase.auth().currentUser.uid)
       let uid = firebase.auth().currentUser.uid
       let profileImg = '';
@@ -55,14 +62,14 @@ const onSignUpPress = () => {
         dispatchLoaderAction({
           type:LOADING_STOP,
         });
-        alert('this is an error' + err);
+        alert('container>SignUp ' + err);
       });
     })
     .catch((err)=>{
       dispatchLoaderAction({
         type:LOADING_STOP,
       });
-      alert('or is this the error' + err);
+      alert('container>SignUp ' + err);
     });
   }
 };

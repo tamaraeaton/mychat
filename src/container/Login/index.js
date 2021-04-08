@@ -31,7 +31,13 @@ const onLoginPress = () => {
     });
     LoginRequest(email, password)
     .then((res)=>{
-      console.log('is this working')
+      if(!res.addittionalUserInfo) {
+        dispatchLoaderAction({
+          type:LOADING_STOP,
+        });
+        alert(res);
+        return;
+      }
       setAsyncStorage(keys.uuid, res.user.uid);
       setUniqueValue(res.user.uid);
       dispatchLoaderAction({
@@ -39,14 +45,12 @@ const onLoginPress = () => {
       });
       // setInitialState(); // solution attempt
       navigation.replace('Dashboard');
-
-
     })
     .catch((err)=>{
       dispatchLoaderAction({
         type:LOADING_STOP,
       });
-      alert('tamaras error' + err)
+      alert('Container>Login' + err)
     })
   }
 };
