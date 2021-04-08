@@ -5,9 +5,9 @@ import {Logo, InputField, RoundCornerButton} from '../../component';
 import { LOADING_START, LOADING_STOP } from '../../context/actions/type';
 import {Store} from '../../context/store'
 import { LoginRequest } from '../../network';
-import { setAsyncStorage } from '../../asyncStorage';
+import { setAsyncStorage, keys } from '../../asyncStorage';
 import { setUniqueValue } from '../../utility/constants';
-import keys from '../../asyncStorage';
+// import keys from '../../asyncStorage';
 
 const Login = ({navigation}) => {
   const globalState = useContext(Store);
@@ -31,11 +31,13 @@ const onLoginPress = () => {
     });
     LoginRequest(email, password)
     .then((res)=>{
+      console.log('is this working')
       setAsyncStorage(keys.uuid, res.user.uid);
       setUniqueValue(res.user.uid);
       dispatchLoaderAction({
         type:LOADING_STOP,
       });
+      // setInitialState(); // solution attempt
       navigation.replace('Dashboard');
 
 
@@ -44,7 +46,7 @@ const onLoginPress = () => {
       dispatchLoaderAction({
         type:LOADING_STOP,
       });
-      alert(err)
+      alert('tamaras error' + err)
     })
   }
 };
